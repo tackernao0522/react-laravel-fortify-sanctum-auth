@@ -70,3 +70,71 @@ https://akiblog10.com/authentication-spa-laravel-react/ <br>
 - `$ npm i -D typescript@4.4.4`を実行<br>
 
 * `$ npx tailwindcss init`を実行<br>
+
+## 02 React.js や Sass の設定
+
+- `webpack.mix.js`を編集<br>
+
+```js:webpack.mix.js
+const mix = require('laravel-mix')
+const tailwindcss = require('tailwindcss')
+
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel applications. By default, we are compiling the CSS
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
+mix.webpackConfig({
+  devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.scss/,
+        loader: 'import-glob-loader',
+      },
+    ],
+  },
+})
+
+mix
+  .ts('resources/ts/app.tsx', 'public/js')
+  .js('resources/js/app.js', 'public/js')
+  .sass('resources/sass/app.scss', 'public/css')
+  .options({
+    processCssUrls: false,
+    postCss: [tailwindcss('./tailwind.config.js')],
+  })
+```
+
+- `$ mkdir resources/sass && touch $_/app.scss`を実行<br>
+
+* `resources/sass/app.scss`を編集<br>
+
+```scss/app.scss
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
+```
+
+- `$ touch tsconfig.json`を実行<br>
+
+`tsconfig.json`を編集<br>
+
+```json:tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+- `$ mkdir resources/ts`を実行<br>
