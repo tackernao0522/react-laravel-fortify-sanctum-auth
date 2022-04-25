@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
+import {useAuth} from './AuthContext';
 
 interface EmailAndPasswordData {
   email: string;
@@ -15,15 +16,15 @@ export const Register = () => {
   const { register, handleSubmit, setError, formState: { errors } } = useForm();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const auth = useAuth() //
 
   const onSubmit = (data: EmailAndPasswordData) => {
     setLoading(true);
     axios.get("/sanctum/csrf-cookie").then(() => {
-      axios
-        .post("/api/register", data)
-        .then(() => {
-          history.push("home");
-        })
+      auth?.register(data)
+      .then(() => {
+        history.push('home')
+      })
         .catch(error => {
           console.log(error);
           setError("submit", {
