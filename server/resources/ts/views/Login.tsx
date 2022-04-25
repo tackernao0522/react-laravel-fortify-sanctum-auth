@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 interface LoginData {
   email: string;
@@ -20,15 +21,15 @@ export const Login = () => {
   } = useForm();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const auth = useAuth();
 
   const onSubmit = (data: LoginData) => {
     setLoading(true);
     axios.get("/sanctum/csrf-cookie").then(() => {
-      axios
-        .post("/api/login", data)
-        .then(() => {
-          history.push("home");
-        })
+      auth?.signin(data)
+      .then(() => {
+        history.push('home')
+      })
         .catch(error => {
           console.log(error);
           setError("submit", {
