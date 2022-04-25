@@ -1,5 +1,7 @@
 https://akiblog10.com/authentication-spa-laravel-react/ <br>
 
+https://github.com/S-Akinori/laravel-react-auth <br>
+
 ## 01 パッケージのインストール
 
 - `$ npm i -D react react-dom @types/react @types/react-dom`を実行<br>
